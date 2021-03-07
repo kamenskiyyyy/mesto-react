@@ -1,0 +1,17 @@
+.button_type_close {
+  background: url('../../../images/close.svg') no-repeat center transparent;
+  width: 41px;
+  height: 41px;
+  position: absolute;
+  top:-41px;
+  right:-41px;
+}
+
+@media screen and (max-width: 540px) {
+  .button_type_close {
+    width: 26px;
+    height: 26px;
+    right: 0;
+    top:-40px;
+  }
+}

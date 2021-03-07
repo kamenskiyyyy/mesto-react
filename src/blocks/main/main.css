@@ -1,0 +1,6 @@
+@media screen and (max-width: 1024px) {
+  .main {
+    width: calc(100% - 38px);
+    margin: auto;
+    }
+}

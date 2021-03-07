@@ -1,0 +1,6 @@
+.button_disabled {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, .2);
+  pointer-events: none;
+  color: #C4C4C4;
+}
