@@ -63,7 +63,7 @@ function App() {
                     onClose={closeAllPopups}
                     name="person"
                     title="Редактировать профиль">
-                    <label className="popup popup_type_edit">
+                    <label className="popup__label">
                         <input
                             id='name'
                             type='text'
@@ -76,7 +76,7 @@ function App() {
                             required />
                         <span id='name-error' className='popup__error'/>
                     </label>
-                    <label className="popup popup_type_edit">
+                    <label className="popup__label">
                         <input
                             id='feature'
                             type='text'
@@ -98,7 +98,7 @@ function App() {
                     onClose={closeAllPopups}
                     name='place'
                     title='Новое место'>
-                    <label className="popup popup_type_add">
+                    <label className="popup__label">
                         <input
                             id='place-name'
                             type='text'
@@ -110,7 +110,7 @@ function App() {
                             placeholder='Название'/>
                         <span id='place-name-error' className='popup__error'/>
                     </label>
-                    <label className="popup popup_type_add">
+                    <label className="popup__label">
                         <input
                             id='place-link'
                             type='url'
@@ -139,7 +139,7 @@ function App() {
                     onClose={closeAllPopups}
                     name="update-avatar"
                     title="Обновить аватар" >
-                    <label className="popup popup_type_edit-avatar">
+                    <label className="popup__label">
                         <input
                         id="edit-avatar"
                         type="url"
