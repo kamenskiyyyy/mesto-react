@@ -59,7 +59,7 @@ function App() {
                 <Footer />
 
                 <PopupWithForm
-                    isOpen={isEditProfilePopupOpen}
+                    isOpened={isEditProfilePopupOpen}
                     onClose={closeAllPopups}
                     name="person"
                     title="Редактировать профиль">
@@ -94,7 +94,7 @@ function App() {
                         className="button button_type_submit">Сохранить</button>
                 </PopupWithForm>
                 <PopupWithForm
-                    isOpen={isAddPlacePopupOpen}
+                    isOpened={isAddPlacePopupOpen}
                     onClose={closeAllPopups}
                     name='place'
                     title='Новое место'>
