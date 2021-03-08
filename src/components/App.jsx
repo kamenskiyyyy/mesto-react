@@ -62,7 +62,8 @@ function App() {
                     isOpened={isEditProfilePopupOpen}
                     onClose={closeAllPopups}
                     name="person"
-                    title="Редактировать профиль">
+                    title="Редактировать профиль"
+                    buttonText='Сохранить'>
                     <label className="popup__label">
                         <input
                             id='name'
@@ -89,15 +90,13 @@ function App() {
                             required />
                         <span id='feature-error' className='popup__error'/>
                     </label>
-                    <button
-                        type='submit'
-                        className="button button_type_submit">Сохранить</button>
                 </PopupWithForm>
                 <PopupWithForm
                     isOpened={isAddPlacePopupOpen}
                     onClose={closeAllPopups}
                     name='place'
-                    title='Новое место'>
+                    title='Новое место'
+                    buttonText='Создать'>
                     <label className="popup__label">
                         <input
                             id='place-name'
@@ -120,9 +119,6 @@ function App() {
                             placeholder='Ссылка на картинку'/>
                         <span id='place-link-error' className='popup__error'/>
                     </label>
-                    <button
-                        type='submit'
-                        className="button button_type_submit">Создать</button>
                 </PopupWithForm>
 
                 <ImagePopup
@@ -131,14 +127,15 @@ function App() {
                 <PopupWithForm
                     onClose={closeAllPopups}
                     name="delete-card"
-                    title="Вы уверены?" >
-                    <button type="button" className="button button_type_submit">Нет</button>
+                    title="Вы уверены?"
+                    buttonText='Нет'>
                 </PopupWithForm>
                 <PopupWithForm
                     isOpened={isEditAvatarPopupOpen}
                     onClose={closeAllPopups}
                     name="update-avatar"
-                    title="Обновить аватар" >
+                    title="Обновить аватар"
+                    buttonText='Сохранить'>
                     <label className="popup__label">
                         <input
                         id="edit-avatar"
@@ -150,7 +147,6 @@ function App() {
                         autoComplete="off"/>
                         <span id='edit-avatar-error' className='popup__error'/>
                     </label>
-                    <button type="submit" className="button button_type_submit">Сохранить</button>
                 </PopupWithForm>
             </div>
         </div>
