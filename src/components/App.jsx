@@ -19,6 +19,9 @@ function App() {
   const [currentUser, setCurrentUser] = useState({name: '', about: ''});              // Стейт данные текущего пользователя
   const [deletedCard, setDeletedCard] = useState(null);                               // Стейт выбранная карточка для удаления
   const [cards, setCards] = useState([]);                                             // Стейт массив карточек
+  const [isLoadingCards, setIsLoadingCards] = useState(true);                         // Стейт прелоадер загрузки карточек
+  const [isLoadingUserInfo, setIsLoadingUserInfo] = useState(true);                   // Стейт прелоадер загрузки информации пользователя
+  const [isLoadingButtonText, setIsLoadingButtonText] = useState(false);              // Стейт надпись на кнопке при сохранении контента
 
   // Обработчик клика по аватару
   function handleEditAvatarClick() {
@@ -55,20 +58,26 @@ function App() {
     setSelectedCard(card);
   }
 
+  // Обработчик обновления информации пользователя
   function handleUpdateUser(userInfo) {
+    setIsLoadingButtonText(true);
     api.editProfile(userInfo)
       .then(data => {
         setCurrentUser({...data});
         closeAllPopups();
+        setIsLoadingButtonText(false);
       })
       .catch(err => console.error(err));
   }
 
+  // Обработчик обновления аватара
   function handleUpdateAvatar({avatar}) {
+    setIsLoadingButtonText(true);
     api.updateAvatar(avatar)
       .then(data => {
         setCurrentUser({...data});
         closeAllPopups();
+        setIsLoadingButtonText(false);
       })
       .catch(err => console.error(err));
   }
@@ -83,21 +92,27 @@ function App() {
       .catch(err => console.error(err));
   }
 
+  // Обработчик подтверждения удаления карточки
   function handleCardDeleteSubmit(cardId) {
+    setIsLoadingButtonText(true);
     api.deleteCard(cardId)
       .then(() => {
         const newCards = cards.filter(c => c._id !== cardId);
         setCards(newCards);
         closeAllPopups();
+        setIsLoadingButtonText(false);
       })
       .catch(err => console.error(err));
   }
 
+  // Обработчик добавления карточки
   function handleAddPlaceSubmit(cardInfo) {
+    setIsLoadingButtonText(true);
     api.addCard(cardInfo)
       .then(newCard => {
         setCards([newCard, ...cards]);
         closeAllPopups();
+        setIsLoadingButtonText(false);
       })
       .catch(err => console.error(err));
   }
@@ -107,6 +122,7 @@ function App() {
     api.getInitialCards()
       .then(initialCards => {
         setCards(initialCards);
+        setIsLoadingCards(false);
       })
       .catch(err => console.error(err));
   }, []);
@@ -131,6 +147,7 @@ function App() {
     api.getUserInfo()
       .then(data => {
         setCurrentUser({...data});
+        setIsLoadingUserInfo(false);
       })
       .catch(err => console.error(err));
   })
@@ -148,6 +165,8 @@ function App() {
             onCardLike={handleCardLike}
             onCardDelete={handleCardDelete}
             cards={cards}
+            isLoadingCards={isLoadingCards}
+            isLoadingUserInfo={isLoadingUserInfo}
           />
           <Footer/>
           {/*Попап редактировать профиль*/}
@@ -156,12 +175,13 @@ function App() {
             buttonText='Сохранить'
             onClose={closeAllPopups}
             onUpdateUser={handleUpdateUser}
-          />
+            isLoadingButtonText={isLoadingButtonText}/>
           {/*Попап добавить карточку*/}
           <AddPlacePopup
             isOpen={isAddPlacePopupOpen}
             onClose={closeAllPopups}
-            onAddPlace={handleAddPlaceSubmit}/>
+            onAddPlace={handleAddPlaceSubmit}
+            isLoadingButtonText={isLoadingButtonText}/>
           {/*Попап картинка*/}
           <ImagePopup
             card={selectedCard}
@@ -172,13 +192,13 @@ function App() {
             onClose={closeAllPopups}
             onCardDelete={handleCardDeleteSubmit}
             card={deletedCard}
-          />
+            isLoadingButtonText={isLoadingButtonText}/>
           {/*Попап обновить аватар*/}
           <EditAvatarPopup
             isOpen={isEditAvatarPopupOpen}
             onClose={closeAllPopups}
             onUpdateAvatar={handleUpdateAvatar}
-          />
+            isLoadingButtonText={isLoadingButtonText}/>
         </div>
       </div>
     </CurrentUserContext.Provider>
