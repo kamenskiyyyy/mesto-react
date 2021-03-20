@@ -1,5 +1,5 @@
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
-import {useContext} from "react/cjs/react.production.min";
+import {useContext} from "react";
 
 function Card(props) {
   const currentUser = useContext(CurrentUserContext);
