@@ -6,12 +6,14 @@ import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import api from "../utils/Api";
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
+import EditProfilePopup from "./EditProfilePopup";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
+  const [currentUser, setCurrentUser] = useState({name: '', about: ''});
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
@@ -34,6 +36,14 @@ function App() {
 
   function handleCardClick(card) {
     setSelectedCard(card);
+  }
+
+  function handleUpdateUser() {
+    api.editProfile(userInfo)
+      .then(data => {
+        setCurrentUser({...data});
+        closeAllPopups();
+      })
   }
 
   useEffect(() => {
@@ -70,39 +80,12 @@ function App() {
             onCardClick={handleCardClick}/>
           <Footer/>
 
-          <PopupWithForm
-            isOpened={isEditProfilePopupOpen}
+          <EditProfilePopup
+            isOpen={isEditProfilePopupOpen}
+            buttonText='Сохранить'
             onClose={closeAllPopups}
-            name="person"
-            title="Редактировать профиль"
-            buttonText='Сохранить'>
-            <label className="popup__label">
-              <input
-                id='name'
-                type='text'
-                minLength='2'
-                maxLength='40'
-                name='name'
-                className='popup__input popup__input_type_name'
-                placeholder="Имя"
-                autoComplete="off"
-                required/>
-              <span id='name-error' className='popup__error'/>
-            </label>
-            <label className="popup__label">
-              <input
-                id='feature'
-                type='text'
-                minLength='2'
-                maxLength='200'
-                name='feature'
-                className='popup__input popup__input_type_feature'
-                placeholder="Вид деятельности"
-                autoComplete="off"
-                required/>
-              <span id='feature-error' className='popup__error'/>
-            </label>
-          </PopupWithForm>
+            onUpdateUser={handleUpdateUser}
+            />
           <PopupWithForm
             isOpened={isAddPlacePopupOpen}
             onClose={closeAllPopups}

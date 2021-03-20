@@ -24,7 +24,7 @@ class Api {
             headers: this.headers,
             body: JSON.stringify({
                 name: userInfo.name,
-                about: userInfo.job
+                about: userInfo.about
             })
         }).then(handleOriginalResponse);
     }
