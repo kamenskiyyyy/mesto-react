@@ -35,6 +35,7 @@ function EditProfilePopup(props) {
       onSubmit={handleSubmit}
       name="person"
       title="Редактировать профиль"
+      buttonText="Сохранить"
     >
       <label className="popup__label">
         <input
@@ -49,7 +50,6 @@ function EditProfilePopup(props) {
           placeholder="Имя"
           autoComplete="off"
           required/>
-        />
         <span id='name-error' className='popup__error'/>
       </label>
       <label className="popup__label">
@@ -67,9 +67,6 @@ function EditProfilePopup(props) {
           required/>
         <span id='feature-error' className='popup__error'/>
       </label>
-      <button
-        type='submit'
-        className="button button_type_submit">{props.buttonText}</button>
     </PopupWithForm>
   )
 }

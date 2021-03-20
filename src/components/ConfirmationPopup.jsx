@@ -13,7 +13,7 @@ function ConfirmationPopup({card, isOpen, onClose, onCardDelete}) {
       onSubmit={handleSubmit}
       name="delete-card"
       title="Вы уверены?"
-      buttonText='Нет'
+      buttonText='Да'
     >
     </PopupWithForm>
   )

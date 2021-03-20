@@ -1,3 +1,6 @@
 .button_type_like-black {
-  background: url('../../../images/like_black.svg');
+  width: 21px;
+  height: 19px;
+  background: url('../../../images/like_black.svg') center no-repeat transparent;
+  border: none;
 }
