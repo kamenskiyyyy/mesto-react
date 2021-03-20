@@ -7,6 +7,7 @@ import ImagePopup from "./ImagePopup";
 import api from "../utils/Api";
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
+import EditAvatarPopup from "./EditAvatarPopup";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -44,6 +45,15 @@ function App() {
         setCurrentUser({...data});
         closeAllPopups();
       })
+  }
+
+  function handleUpdateAvatar({avatar}) {
+    api.updateAvatar(avatar)
+      .then(data => {
+        setCurrentUser({...data});
+        closeAllPopups();
+      })
+      .catch(err => console.error(err));
   }
 
   useEffect(() => {
@@ -125,24 +135,12 @@ function App() {
             title="Вы уверены?"
             buttonText='Нет'>
           </PopupWithForm>
-          <PopupWithForm
-            isOpened={isEditAvatarPopupOpen}
+          <EditAvatarPopup
+            isOpen={isEditAvatarPopupOpen}
             onClose={closeAllPopups}
-            name="update-avatar"
-            title="Обновить аватар"
-            buttonText='Сохранить'>
-            <label className="popup__label">
-              <input
-                id="edit-avatar"
-                type="url"
-                name="avatar"
-                required
-                className="popup__input"
-                placeholder="Введите ссылку на фото"
-                autoComplete="off"/>
-              <span id='edit-avatar-error' className='popup__error'/>
-            </label>
-          </PopupWithForm>
+            onUpdateAvatar={handleUpdateAvatar}
+          >
+          </EditAvatarPopup>
         </div>
       </div>
     </CurrentUserContext.Provider>
