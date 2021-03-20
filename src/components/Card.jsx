@@ -14,18 +14,26 @@ function Card(props) {
     `button ${isLiked ? 'button_type_like-black' : 'button_type_like'}`
   );
 
-  function handleClick() {
+  function handleImageClick() {
     props.onCardClick(props.card);
+  }
+
+  function handleLikeClick() {
+    props.onCardLike(props.card);
+  }
+
+  function handleDeleteClick() {
+    props.onCardDelete(props.card)
   }
 
   return (
     <article className="card">
-      <img className="card__image" src={props.card.link} alt={props.card.name} onClick={handleClick}/>
-      <button className="button button_type_delete" aria-label="Удалить" type="button"/>
+      <img className="card__image" src={props.card.link} alt={props.card.name} onClick={handleImageClick}/>
+      <button className={cardDeleteButtonClassName} onClick={handleDeleteClick} aria-label="Удалить" type="button"/>
       <div className="card__description">
         <h2 className="card__name">{props.card.name}</h2>
         <div className="card__likes">
-          <button className="button button_type_like" aria-label="Лайк" type="button"/>
+          <button className={cardLikeButtonClassName} onClick={handleLikeClick} aria-label="Лайк" type="button"/>
           <span className="card__like-counter">{props.card.likes.length ? props.card.likes.length : ''}</span>
         </div>
       </div>

@@ -1,4 +1,5 @@
 import handleOriginalResponse from './utils.js';
+
 class Api {
     constructor(options) {
         this.baseUrl = options.baseUrl;
@@ -43,21 +44,23 @@ class Api {
         return fetch(`${this.baseUrl}/cards/${cardId}`, {
             method: 'DELETE',
             headers: this.headers,
-        });
-    }
-
-    addLike(cardId) {
-        return fetch(`${this.baseUrl}/cards/likes/${cardId}`, {
-            method: 'PUT',
-            headers: this.headers,
         }).then(handleOriginalResponse);
     }
 
-    deleteLike(cardId) {
-        return fetch(`${this.baseUrl}/cards/likes/${cardId}`, {
-            method: 'DELETE',
-            headers: this.headers,
-        }).then(handleOriginalResponse);
+    changeLikeCardStatus(cardId, setLike) {
+        if (setLike) {
+            return fetch(`${this.baseUrl}/cards/likes/${cardId}`, {
+                method: 'PUT',
+                headers: this.headers,
+            })
+              .then(handleOriginalResponse);
+        } else {
+            return fetch(`${this.baseUrl}/cards/likes/${cardId}`, {
+                method: 'DELETE',
+                headers: this.headers,
+            })
+              .then(handleOriginalResponse);
+        }
     }
 
     updateAvatar(avatarLink) {
