@@ -11,32 +11,37 @@ import ConfirmationPopup from "./ConfirmationPopup";
 import AddPlacePopup from "./AddPlacePopup";
 
 function App() {
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
-  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
-  const [isConfirmationPopupOpen, setIsConfirmationPopupOpen] = useState(false);
-  const [selectedCard, setSelectedCard] = useState(null);
-  const [currentUser, setCurrentUser] = useState({name: '', about: ''});
-  const [deletedCard, setDeletedCard] = useState(null);
-  const [cards, setCards] = useState([]);
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);        // Стейт попап редактирования профиля открыт
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);              // Стейт попап добавить карточку открыт
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);          // Стейт попап редактирования аватара открыт
+  const [isConfirmationPopupOpen, setIsConfirmationPopupOpen] = useState(false);      // Стейт попап подтверждения удаления карточки открыт
+  const [selectedCard, setSelectedCard] = useState(null);                             // Стейт выбранная карточка для передачи картинки карточки
+  const [currentUser, setCurrentUser] = useState({name: '', about: ''});              // Стейт данные текущего пользователя
+  const [deletedCard, setDeletedCard] = useState(null);                               // Стейт выбранная карточка для удаления
+  const [cards, setCards] = useState([]);                                             // Стейт массив карточек
 
+  // Обработчик клика по аватару
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
   }
 
+  // Обработчик клика по кнопке редактирования профиля
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
   }
 
+  // Обработчик клика по кнопке добавить карточку
   function handleAddPlaceClick() {
     setIsAddPlacePopupOpen(true);
   }
 
+  // Обработчик клика по кнопке удалить карточку
   function handleCardDelete(card) {
     setIsConfirmationPopupOpen(true);
     setDeletedCard(card);
   }
 
+  // Функция закрытия всех попапов
   function closeAllPopups() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
@@ -45,6 +50,7 @@ function App() {
     setSelectedCard(null);
   }
 
+  // Обработчик клика по картинке карточки
   function handleCardClick(card) {
     setSelectedCard(card);
   }
@@ -96,6 +102,7 @@ function App() {
       .catch(err => console.error(err));
   }
 
+  // Загрузка карточек по умолчанию
   useEffect(() => {
     api.getInitialCards()
       .then(initialCards => {
@@ -104,6 +111,7 @@ function App() {
       .catch(err => console.error(err));
   }, []);
 
+  // Добавить/удалить слушателя нажатия Esc при открытии попапа
   useEffect(() => {
     function handleEscClose(evt) {
       if (evt.key === 'Escape') {
@@ -118,6 +126,7 @@ function App() {
     }
   }, [isEditProfilePopupOpen, isAddPlacePopupOpen, isEditAvatarPopupOpen, isConfirmationPopupOpen, selectedCard]);
 
+  // Загрузка данных пользователя
   useEffect(() => {
     api.getUserInfo()
       .then(data => {
@@ -141,32 +150,35 @@ function App() {
             cards={cards}
           />
           <Footer/>
-
+          {/*Попап редактировать профиль*/}
           <EditProfilePopup
             isOpen={isEditProfilePopupOpen}
             buttonText='Сохранить'
             onClose={closeAllPopups}
             onUpdateUser={handleUpdateUser}
           />
+          {/*Попап добавить карточку*/}
           <AddPlacePopup
             isOpen={isAddPlacePopupOpen}
             onClose={closeAllPopups}
             onAddPlace={handleAddPlaceSubmit}/>
+          {/*Попап картинка*/}
           <ImagePopup
             card={selectedCard}
             onClose={closeAllPopups}/>
+          {/*Попап удаления карточки*/}
           <ConfirmationPopup
             isOpen={isConfirmationPopupOpen}
             onClose={closeAllPopups}
             onCardDelete={handleCardDeleteSubmit}
             card={deletedCard}
           />
+          {/*Попап обновить аватар*/}
           <EditAvatarPopup
             isOpen={isEditAvatarPopupOpen}
             onClose={closeAllPopups}
             onUpdateAvatar={handleUpdateAvatar}
-          >
-          </EditAvatarPopup>
+          />
         </div>
       </div>
     </CurrentUserContext.Provider>
