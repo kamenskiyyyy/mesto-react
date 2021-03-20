@@ -1,22 +1,11 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useContext} from 'react';
 import api from "../utils/Api";
 import Card from "./Card";
+import {CurrentUserContext} from "../contexts/CurrentUserContext";
 
 function Main(props) {
-    const [userName, setUserName] = useState();
-    const [userDescription, setUserDescription] = useState();
-    const [userAvatar, setUserAvatar] = useState();
     const [cards, setCards] = useState([]);
-
-    useEffect(() => {
-        api.getUserInfo()
-            .then(data => {
-                setUserName(data.name);
-                setUserDescription(data.about);
-                setUserAvatar(data.avatar);
-            })
-            .catch(err => console.error(err));
-    }, []);
+    const currentUser = useContext(CurrentUserContext);
 
     useEffect(() => {
         api.getInitialCards()
@@ -30,19 +19,19 @@ function Main(props) {
         <main className="main">
             <div className="profile">
                 <div className="profile__avatar-container">
-                    <img src={userAvatar} alt={userName} className="profile__photo"/>
+                    <img src={currentUser.avatar} alt={currentUser.name} className="profile__photo"/>
                     <button onClick={props.onEditAvatar} className="profile__edit-avatar"/>
                 </div>
                 <div className="profile__info">
                     <div className="profile__name-wrap">
-                        <h1 className="profile__name">{userName}</h1>
+                        <h1 className="profile__name">{currentUser.name}</h1>
                         <button
                             onClick={props.onEditProfile}
                             className="button button_type_edit"
                             aria-label="Редактировать"
                             type="button"/>
                     </div>
-                    <p className="profile__feature">{userDescription}</p>
+                    <p className="profile__feature">{currentUser.about}</p>
                 </div>
                 <button
                     onClick={props.onAddPlace}
