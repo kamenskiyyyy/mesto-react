@@ -44,7 +44,8 @@ function Main({
           aria-label="Добавить фото"
           type="button"/>
       </div>
-      <Preloader className={`preloader preloader_type_image lds-ripple ${!isLoadingCards && 'preloader_hidden'}`}/>
+      {/*Индикатор загрузки карточек*/}
+      {isLoadingCards  &&  <Preloader className={`preloader preloader_type_image lds-ripple`}/>}
 
       <section className="cards-list">
         {cards.map(card => (

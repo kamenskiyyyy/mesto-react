@@ -3,7 +3,7 @@ import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
 import ImagePopup from "./ImagePopup";
-import api from "../utils/Api";
+import api from "../utils/api";
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
@@ -65,9 +65,11 @@ function App() {
       .then(data => {
         setCurrentUser({...data});
         closeAllPopups();
+      })
+      .catch(err => console.error(err))
+      .finally(() => {
         setIsLoadingButtonText(false);
       })
-      .catch(err => console.error(err));
   }
 
   // Обработчик обновления аватара
@@ -77,17 +79,18 @@ function App() {
       .then(data => {
         setCurrentUser({...data});
         closeAllPopups();
+      })
+      .catch(err => console.error(err))
+      .finally(() => {
         setIsLoadingButtonText(false);
       })
-      .catch(err => console.error(err));
   }
 
   function handleCardLike(card) {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
     api.changeLikeCardStatus(card._id, !isLiked)
       .then(newCard => {
-        const newCards = cards.map(c => c._id === card._id ? newCard : c);
-        setCards(newCards);
+        setCards(cards => cards.map(c => c._id === card._id ? newCard : c));
       })
       .catch(err => console.error(err));
   }
@@ -97,12 +100,13 @@ function App() {
     setIsLoadingButtonText(true);
     api.deleteCard(cardId)
       .then(() => {
-        const newCards = cards.filter(c => c._id !== cardId);
-        setCards(newCards);
+        setCards(cards.filter(c => c._id !== cardId));
         closeAllPopups();
+      })
+      .catch(err => console.error(err))
+      .finally(() => {
         setIsLoadingButtonText(false);
       })
-      .catch(err => console.error(err));
   }
 
   // Обработчик добавления карточки
@@ -112,9 +116,11 @@ function App() {
       .then(newCard => {
         setCards([newCard, ...cards]);
         closeAllPopups();
+      })
+      .catch(err => console.error(err))
+      .finally(() => {
         setIsLoadingButtonText(false);
       })
-      .catch(err => console.error(err));
   }
 
   // Загрузка карточек по умолчанию
@@ -122,9 +128,11 @@ function App() {
     api.getInitialCards()
       .then(initialCards => {
         setCards(initialCards);
+      })
+      .catch(err => console.error(err))
+      .finally(() => {
         setIsLoadingCards(false);
       })
-      .catch(err => console.error(err));
   }, []);
 
   // Добавить/удалить слушателя нажатия Esc при открытии попапа
@@ -147,9 +155,11 @@ function App() {
     api.getUserInfo()
       .then(data => {
         setCurrentUser({...data});
+      })
+      .catch(err => console.error(err))
+      .finally(() => {
         setIsLoadingUserInfo(false);
       })
-      .catch(err => console.error(err));
   })
 
   return (
