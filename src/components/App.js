@@ -15,7 +15,7 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);              // Стейт попап добавить карточку открыт
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);          // Стейт попап редактирования аватара открыт
   const [isConfirmationPopupOpen, setIsConfirmationPopupOpen] = useState(false);      // Стейт попап подтверждения удаления карточки открыт
-  const [selectedCard, setSelectedCard] = useState(null);                             // Стейт выбранная карточка для передачи картинки карточки
+  const [selectedCard, setSelectedCard] = useState(null);                             // Стейт выбранная карточка для передачи картинки карточки в попап
   const [currentUser, setCurrentUser] = useState({name: '', about: ''});              // Стейт данные текущего пользователя
   const [deletedCard, setDeletedCard] = useState(null);                               // Стейт выбранная карточка для удаления
   const [cards, setCards] = useState([]);                                             // Стейт массив карточек
@@ -160,7 +160,7 @@ function App() {
       .finally(() => {
         setIsLoadingUserInfo(false);
       })
-  })
+  }, []);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
